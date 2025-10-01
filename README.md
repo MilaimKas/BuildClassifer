@@ -30,8 +30,6 @@
 | |____model_testing.py                 # class for analysing classifier performance
 | |____feature_importance.py            # wrapper for permutation, SHAP and model feature importance
 | |____Pytorch_model_wrapper.py         # custom class for PyTorch classifier 
-| |____Keras_model_wrapper.py           # custom class for Keras classifier (deprecated)
-| |____Skorch_model_wrapper.py          # custom class using skorch (depracated)
 | |____Tree_model_wrapper.py         # custom class for XGBoost classifier
 | |____calibration_wrapper.py           # wrapper to callibrated classifier (expected precision)
 |____feature_selection
@@ -83,17 +81,9 @@ class FeatureCreator(BaseEstimator, TransformerMixin):
 
     def transform(self, X, y=None):
 
-        # define index
-        if "chiffre" in X.columns:
-            X.set_index("chiffre", inplace=True)
-
         # create time related features
         X_new = pd.concat([self.create_time_features(X), X_new], axis=1)
         logger.success("Created time-related features")
-
-        # create geo based features
-        X_new = pd.concat([self.create_geo_features(X), X_new], axis=1)
-        logger.success("Created geolocalization features")
 
         # onehot encoding
         X_new = pd.concat([self.create_one_hot_encoding_features(X_new, cat_to_onehot=cat_to_onehot), X_new], axis=1)
@@ -110,11 +100,6 @@ class FeatureCreator(BaseEstimator, TransformerMixin):
         X_time["time"] = feat_creation.create_day_time(X["raw_timestamp"])
 
         return X_time
-    
-    def create_geo_features(self, X):
-        X_geo = pd.DataFrame(index=X.index)
-        X_geo["country_residence"] = feat_creation.extract_iso_country(X["raw_country_residence"])
-        return X_geo
 
     def create_one_hot_encoding_features(self, X, cat_to_onehot=cat_to_onehot):
         return onehot_encode_with_vocab(X, cat_to_onehot)
@@ -126,25 +111,11 @@ Training and analysing the model:
 
 ```python
 
-# !!!!!
-# The following function /class/config must be defined in the current repo. These are examples.
-from helpers import get_raw_data
-from feature_creation_class import FeatureCreator
-from config import best_features # list of available features, ordered by importance
-from config import feat_group_dict # dict with feature groups as key and list of features as values
-# !!!!!
-
 from sklearn.model_selection import train_test_split
 from BuildClassifier.pipelines import full_pipeline
 from BuildClassifier.models.model_testing import ModelTesting
 from BuildClassifier.tuning import optuna_tuning
 from BuildClassifier.models import feature_importance
-
-
-# get raw data
-df = get_raw_data(max_rows=100)
-X = df.drop(columns="scam_flag")
-y = df["scam_flag"]
 
 # create all features for the entire dataset (!!! The FeatureCreator class must be provided !!!)
 X_transformed = FeatureCreator().transform(X)
