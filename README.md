@@ -127,7 +127,7 @@ Training and analysing the model:
 ```python
 
 from sklearn.model_selection import train_test_split
-from BuildClassifier.pipelines import full_pipeline
+from BuildClassifier.pipelines import full_pipeline, pipeline_helpers
 from BuildClassifier.models.model_testing import ModelTesting
 from BuildClassifier.tuning import optuna_tuning
 from BuildClassifier.models import feature_importance
@@ -175,7 +175,15 @@ model_pipeline.fit(X_train, y_train)
 # get predictions
 y_pred = model_pipeline.predict(X_test)
 y_pred_proba = model_pipeline.predict_proba(X_test)[:,1]
-y_expect_pre = model_pipeline.predict_expected_precision(X_test)
+
+# additional features are available tzhrough the pipeline_helpers module
+
+# calibrate model in place for expected precision
+# best practice is to calibrate on a separate calibration set
+pipeline_helpers.calibrate_pipeline(model_pipeline, X_test, y_test)
+
+# get expected precision predictions
+y_expect_pre = pipeline_helpers.predict_expected_precision(model_pipeline, X_test)
 
 ```
 ### 3. Model performance
