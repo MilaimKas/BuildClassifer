@@ -107,6 +107,21 @@ class FeatureCreator(BaseEstimator, TransformerMixin):
 
 ```
 
+In addition, a dictionary that defines feature groups must be provided to the pipeline builder. Accepted keys are:
+```python
+'free_text_features',
+'cat_to_targetencode_A',
+'cat_to_targetencode_B',
+'cat_to_targetencode_C',
+'cat_to_count',
+'num_to_clip_sym',
+'num_to_clip_upper',
+'num_to_logtransform',
+'num_to_normalize'
+``` 
+
+Where each key contains a list of feature names that belong to the group.
+                        
 Training and analysing the model:
 
 ```python
