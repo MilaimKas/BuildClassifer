@@ -84,7 +84,8 @@ def get_model_pipeline(model="pytorch", cache=True, caching_dir="caching/",
     # check model input and initialize classifier using ExpectedPrecision wrapper
     if isinstance(model, str):
         if model not in model_dict:
-            logger.error(f"Invalid model name, must be any of {model_dict.keys()}, got {model}")
+            err_str = f"Invalid model name, must be any of {model_dict.keys()}, got {model}"    
+            logger.error(err_str)
             raise ValueError(err_str)
         if model != "randomforest": # no trial pruning implemented for RandomForest
             classifier = CallibratedClassifier(model_dict[model](trial=trial, **classifier_kwargs))
