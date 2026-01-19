@@ -127,6 +127,7 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.
 # Train RandomForest model
 
 # define parameters
+# given that there are 2 free text features feat1 and feat2.
 params = {
     # xgbosst parameters
     "classifier__base_estimator__learning_rate": 0.05,
@@ -139,13 +140,13 @@ params = {
     "classifier__base_estimator__min_child_weight": 1,
     "classifier__base_estimator__n_estimators": 200,
     # pipeline transformation parameters
-    'Free_text_embedding_model__rf_howdidyou_embeddings__n_estimators': 30,
-    'Free_text_embedding_model__rf_howdidyou_embeddings__max_depth': 15,
-    'Free_text_embedding_model__rf_occupation_embeddings__n_estimators': 150,
-    'Free_text_embedding_model__rf_occupation_embeddings__max_depth': 15,
-    'categorical_encoding__te_A__smoothing': 4.104737351688896,
-    'categorical_encoding__te_B__smoothing': 10.011479543015225,
-    'categorical_encoding__te_C__smoothing': 25.10511396415008}
+    'Free_text_embedding_model__rf_feat1_embeddings__n_estimators': 30,
+    'Free_text_embedding_model__rf_feat1_embeddings__max_depth': 15,
+    'Free_text_embedding_model__rf_feat2_embeddings__n_estimators': 150,
+    'Free_text_embedding_model__rf_feat2_embeddings__max_depth': 15,
+    'categorical_encoding__te_A__smoothing': 4.,
+    'categorical_encoding__te_B__smoothing': 10.,
+    'categorical_encoding__te_C__smoothing': 25.}
 
 # add selected features to the parameter dictionary
 params.update({"selected_features":best_features[:50]})
@@ -202,10 +203,10 @@ plt.show()
 # define space parameters
 search_space = {'classifier__base_estimator__n_estimators': ("int", 100, 300),
  'classifier__base_estimator__max_depth': ("int", 10, 25),
- 'Free_text_embedding_model__rf_howdidyou_embeddings__n_estimators': ("int", 30,100),
- 'Free_text_embedding_model__rf_howdidyou_embeddings__max_depth': ("int", 10, 25),
- 'Free_text_embedding_model__rf_occupation_embeddings__n_estimators': ("int", 50, 150),
- 'Free_text_embedding_model__rf_occupation_embeddings__max_depth': ("int", 10, 25),
+ 'Free_text_embedding_model__rf_feat1_embeddings__n_estimators': ("int", 30,100),
+ 'Free_text_embedding_model__rf_feat1_embeddings__max_depth': ("int", 10, 25),
+ 'Free_text_embedding_model__rf_feat2_embeddings__n_estimators': ("int", 50, 150),
+ 'Free_text_embedding_model__rf_feat2_embeddings__max_depth': ("int", 10, 25),
  'categorical_encoding__te_A__smoothing': ("fixed", 4.),
  'categorical_encoding__te_B__smoothing': ("fixed", 10),
  'categorical_encoding__te_C__smoothing': ("fixed", 25)
