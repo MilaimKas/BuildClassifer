@@ -305,3 +305,7 @@ uncert_df = pipeline.named_steps["classifier"].predict_uncert(X_val_transformed)
 print(uncert_df.head(10))
 
 ```
+
+### Disclaimer: IA usage    
+
+This project was developped with minimal IA assistance. Some code snippets were generated using an AI tool, but all code was reviewed and modified by the authors to ensure quality and correctness.
