@@ -163,8 +163,10 @@ params = {
     'categorical_encoding__te_B__smoothing': 10.,
     'categorical_encoding__te_C__smoothing': 25.}
 
-# add selected features to the parameter dictionary
-params.update({"selected_features":best_features[:50]})
+# add selected features to the parameter dictionary (example: use all features)
+# in addition to the features defined in the input data, the pipeline also creates a new feature 'missing_count', which counts the number of missing values per row
+# to include this feature in the model, it must be added to the selected_features list
+params.update({"selected_features":X_train.columns.tolist().append("missing_count")})
 
 # create pipeline
 model_pipeline = full_pipeline.build_pipeline(params, model_name="randomforest", pipeline_kwargs=feat_group_dict)
