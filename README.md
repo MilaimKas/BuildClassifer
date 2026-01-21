@@ -308,4 +308,4 @@ print(uncert_df.head(10))
 
 ### Disclaimer: IA usage    
 
-This project was developped with minimal IA assistance. Some code snippets were generated using an AI tool, but all code was reviewed and modified by the authors to ensure quality and correctness.
+This project was developped with IA assistance but no "vibe-coding". Some code snippets were generated using an AI tool, but all code was reviewed and modified by the authors to ensure quality and correctness. Most codes were first written by the authors and then improved with AI assistance.
