@@ -283,6 +283,8 @@ display(featimp.feature_importance_df)
 
 We have implemented uncertainty prediction for the PyTorch and RandonForest model, when the classifier argument 'use_beta' is set to True.
 This makes the model uncertainty-aware: it outputs a Beta distribution instead of a point prediction for each data points. This means that, in addition to the raw probability output, we also have acces to it's uncertainty (through the variance of the Beta distribution).
+For the PyTorch model, this is incorporated through a custom loss function (BetaNLLLoss) that trains the model to output the parameters of a Beta distribution. This approach has some theoritical justifications (see for example the paper "What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision?" by Kendall and Gal (2017)).
+For the RandomForest model, this is done by using the distribution of the outputs of the individual trees (using leaf statistics) to estimate the parameters of a Beta distribution. This approach is more heuristic, and has not been validated.
 
 Minimal example:
 
