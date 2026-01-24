@@ -274,7 +274,7 @@ class ModelTesting:
 
         return ax
 
-    def inspect_confusion_matrix(self, prob_type="raw", cut=0.985, classes=["no Scammer", "Scammer"],
+    def inspect_confusion_matrix(self, prob_type="raw", cut=0.985, classes_name=["0", "1"],
                                 normalize=False,
                                 title='Confusion matrix',
                                 cmap=plt.cm.Blues,
@@ -287,8 +287,8 @@ class ModelTesting:
         cm = confusion_matrix(y_test, y_predicted_classes)
 
         print('Metrics')
-        print(colored(f'Scamshare (test): {sum(y_test) * 100 / len(y_test):.1f}%', 'grey'))
-        print(colored(f'Scamshare (pred): {sum(y_predicted_classes) * 100 / len(y_predicted_classes):.1f}%', 'grey'))
+        print(colored(f'{classes_name[0]} share (test): {sum(y_test) * 100 / len(y_test):.1f}%', 'grey'))
+        print(colored(f'{classes_name[0]}  share (pred): {sum(y_predicted_classes) * 100 / len(y_predicted_classes):.1f}%', 'grey'))
 
         recall = recall_score(y_test, y_predicted_classes) * 100
         if recall > recall_thresholds[0]:
